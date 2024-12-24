@@ -1,0 +1,53 @@
+
+type PassengerDTO {
+    id: ID
+    name: String
+    passportNumber: String
+    baggage: [BaggageDTO]
+    flight_id: String
+}
+
+
+enum BaggageStatus {
+    REGISTERED
+    LOADED_IN_PLANE
+    IN_TRANSIT
+    UNLOADED_FROM_PLANE
+    ISSUED
+    LOST
+}
+
+type BaggageDTO{
+    id: ID
+    passengerId: ID
+    weight: Float
+    status: BaggageStatus
+}
+
+input AddPassengerDTO {
+    id: ID
+    name: String!
+    surname: String!
+    passportNumber: String!
+    baggage: [BaggageInput]
+    flight_id: String!
+}
+
+input BaggageInput {
+    passengerId: ID
+    weight: Float
+    status: BaggageStatus
+}
+
+type Mutation {
+    addPassenger(addPassengerDto: AddPassengerDTO!): PassengerDTO
+}
+input UpdateBaggageStatusInput {
+    baggageId: ID!
+    newStatus: BaggageStatus!
+}
+type Query {
+    hello: String!
+    getAllPassengers: [PassengerDTO!]!
+    updateBaggageStatus(input: UpdateBaggageStatusInput!): BaggageDTO
+}
